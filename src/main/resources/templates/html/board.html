@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Spring board project</title>
+    <link th:href="@{../css/bootstrap.css}"
+          href="../css/bootstrap.css" rel="stylesheet">
+    <style>
+        .custom-heading {
+            color: #007bff;
+            background-color: rgba(255, 255, 255, 0.99);
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="text-start">
+        <h1 class="custom-heading font-weight-bold">Spring board project <small class="text-light-emphasis">by MoonWonKi</small></h1>
+    </div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title" th:text="">제목</h2>
+
+            <div class="d-flex flex-row-reverse">
+                <div>
+                    <small class="text-muted">작성일자</small>
+                    <small class="text-muted">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</small>
+                    <small class="text-muted">작성자</small>
+                </div>
+            </div>
+            <hr>
+            <p class="card-text">글의 내용이 깔끔하게 보여지는 부분입니다.</p>
+        </div>
+    </div>
+
+
+    <button type="button" class="btn btn-outline-success">추천!</button>
+    <button type="button" class="btn btn-danger float-end">삭제하기</button>
+    <button type="button" class="btn btn-outline-primary float-end">메뉴로</button>
+    <button type="button" class="btn btn-outline-primary float-end">수정하기</button>
+
+
+
+</div>
+
+
+</body>
+</html>
