@@ -33,20 +33,20 @@ public class BoardController {
         Collections.reverse(boards);
 
         model.addAttribute("boards", boards);
-        return "/html/boards";
+        return "html/boards";
     }
 
     @GetMapping("/board/{id}")
     public String getBoardById(Model model, @PathVariable("id") Long id){
         Board board = boardRepository.findById(id).get();
         model.addAttribute("board", board);
-        return "/html/board";
+        return "html/board";
     }
 
     @GetMapping("/create")
     public String getBoardForm(Model model){
 
-        return "/html/boardForm";
+        return "html/boardForm";
     }
 
     @PostMapping("/create")
@@ -56,7 +56,7 @@ public class BoardController {
 
         redirectAttr.addAttribute("id", savedBoard.getId());
         log.info("신규 보드 생성: " + savedBoard.getId());
-        return "redirect:/board/{id}";
+        return "redirect:board/{id}";
     }
 
     @GetMapping("/board/recommend/{id}")
@@ -66,7 +66,7 @@ public class BoardController {
 
         board.setRecommendCount(recommendCount + 1);
         boardRepository.save(board);
-        return "redirect:/board/{id}";
+        return "redirect:board/{id}";
     }
 
     @DeleteMapping("/board/{id}")
@@ -75,14 +75,14 @@ public class BoardController {
         boardRepository.deleteById(id);
 
 
-        return "redirect:/boards";
+        return "redirect:boards";
     }
 
     @GetMapping("/board/update/{id}")
     public String getEditForm(Model model, @PathVariable("id") Long id){
         Board board = boardRepository.findById(id).get();
         model.addAttribute("board", board);
-        return "/html/boardEditForm";
+        return "html/boardEditForm";
     }
 
     @PostMapping("/board/update/{id}")
@@ -92,6 +92,6 @@ public class BoardController {
         oldBoard.setAuthor(newBoard.getAuthor());
         oldBoard.setContent(newBoard.getContent());
         boardRepository.save(oldBoard);
-        return "redirect:/board/" + id;
+        return "redirect:board/" + id;
     }
 }
