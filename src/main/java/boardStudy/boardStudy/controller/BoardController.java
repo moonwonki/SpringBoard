@@ -56,7 +56,7 @@ public class BoardController {
 
         redirectAttr.addAttribute("id", savedBoard.getId());
         log.info("신규 보드 생성: " + savedBoard.getId());
-        return "redirect:/html/board/{id}";
+        return "redirect:/board/{id}";
     }
 
     @GetMapping("/board/recommend/{id}")
@@ -67,7 +67,7 @@ public class BoardController {
         board.setRecommendCount(recommendCount + 1);
         boardRepository.save(board);
         redirectAttr.addAttribute("id", board.getId());
-        return "redirect:/html/board/{id}";
+        return "redirect:/board/{id}";
     }
 
     @DeleteMapping("/board/{id}")
@@ -76,7 +76,7 @@ public class BoardController {
         boardRepository.deleteById(id);
 
 
-        return "redirect:/html/boards";
+        return "redirect:/boards";
     }
 
     @GetMapping("/board/update/{id}")
@@ -93,6 +93,6 @@ public class BoardController {
         oldBoard.setAuthor(newBoard.getAuthor());
         oldBoard.setContent(newBoard.getContent());
         boardRepository.save(oldBoard);
-        return "redirect:/html/board/" + id;
+        return "redirect:/board/" + id;
     }
 }
