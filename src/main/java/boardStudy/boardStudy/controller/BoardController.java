@@ -56,26 +56,27 @@ public class BoardController {
 
         redirectAttr.addAttribute("id", savedBoard.getId());
         log.info("신규 보드 생성: " + savedBoard.getId());
-        return "redirect:board/{id}";
+        return "redirect:html/board/{id}";
     }
 
     @GetMapping("/board/recommend/{id}")
-    public String recommendBoard(@PathVariable("id") Long boardId) {
+    public String recommendBoard(@PathVariable("id") Long boardId, RedirectAttributes redirectAttr) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("Invalid board id: " + boardId));
         int recommendCount = board.getRecommendCount();
 
         board.setRecommendCount(recommendCount + 1);
         boardRepository.save(board);
-        return "redirect:board/{id}";
+        redirectAttr.addAttribute("id", board.getId());
+        return "redirect:html/board/{id}";
     }
 
     @DeleteMapping("/board/{id}")
-    public String deleteBoard(Model model, @PathVariable("id") Long id){
+    public String deleteBoard(Model model, @PathVariable("id") Long id, RedirectAttributes redirectAttr){
         log.info("게시글 삭제: " + id);
         boardRepository.deleteById(id);
 
 
-        return "redirect:boards";
+        return "redirect:html/boards";
     }
 
     @GetMapping("/board/update/{id}")
@@ -92,6 +93,6 @@ public class BoardController {
         oldBoard.setAuthor(newBoard.getAuthor());
         oldBoard.setContent(newBoard.getContent());
         boardRepository.save(oldBoard);
-        return "redirect:board/" + id;
+        return "redirect:html/board/" + id;
     }
 }
