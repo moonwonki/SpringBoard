@@ -21,20 +21,20 @@
         <h1 class="custom-heading font-weight-bold">Spring board project <small class="text-light-emphasis">by MoonWonKi</small></h1>
     </div>
 
-    <form th:action="@{/create}" method="post">
-        <div class="form-group">
-            <label for="title">제목</label>
-            <input type="text" class="form-control" id="title" name=title placeholder="제목을 입력하세요">
+    <form th:action="@{'/board/update/' + ${board.id}}" method="post">
+    <div class="form-group">
+            <label for="title" >제목</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" th:value="${board.title}">
         </div>
         <div class="form-group">
             <label for="author">작성자</label>
-            <input type="text" class="form-control" id="author" name="author" placeholder="작성자를 입력하세요">
+            <input type="text" class="form-control" id="author" name="author" placeholder="작성자를 입력하세요" th:value="${board.author}">
         </div>
         <div class="form-group">
             <label for="content">글 내용</label>
-            <textarea class="form-control" id="content" rows="5" name="content" placeholder="글 내용을 입력하세요"></textarea>
+            <textarea class="form-control" id="content" rows="5" placeholder="글 내용을 입력하세요" name="content" th:text="${board.content}"></textarea>
         </div>
-        <button type="submit" class="btn btn-outline-primary float-end">작성</button>
+        <button type="submit" class="btn btn-outline-primary float-end">수정!</button>
     </form>
 </div>
 </body>

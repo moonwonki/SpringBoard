@@ -24,25 +24,30 @@
 
     <div class="card">
         <div class="card-body">
-            <h2 class="card-title" th:text="">제목</h2>
+            <h2 class="card-title" th:text="${board.title}">제목</h2>
 
             <div class="d-flex flex-row-reverse">
                 <div>
-                    <small class="text-muted">작성일자</small>
+                    <small class="text-muted" th:text="${#temporals.format(board.createTime, 'yyyy-MM-dd HH:mm')}">작성일자</small>
                     <small class="text-muted">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</small>
-                    <small class="text-muted">작성자</small>
+                    <small class="text-muted" th:text="${board.author}">작성자</small>
                 </div>
             </div>
             <hr>
-            <p class="card-text">글의 내용이 깔끔하게 보여지는 부분입니다.</p>
+            <p class="card-text" th:text="${board.content}">글의 내용이 깔끔하게 보여지는 부분입니다.</p>
         </div>
     </div>
 
-
-    <button type="button" class="btn btn-outline-success">추천!</button>
-    <button type="button" class="btn btn-danger float-end">삭제하기</button>
-    <button type="button" class="btn btn-outline-primary float-end">메뉴로</button>
-    <button type="button" class="btn btn-outline-primary float-end">수정하기</button>
+    <div class="btn-group">
+        <a type="button" class="btn btn-outline-success" th:href="'/board/recommend/' + ${board.id}">추천!</a>
+        <div class="btn btn-outline-success" style="width: auto;" th:text="${board.recommendCount}">추천수!</div>
+    </div>
+    <form th:action="'/board/' + ${board.id}" th:method="post">
+        <input type="hidden" name="_method" value="DELETE" />
+        <button type="submit" class="btn btn-danger float-end">삭제하기</button>
+    </form>
+    <a type="button" class="btn btn-outline-primary float-end" th:href="@{/boards}">메뉴로</a>
+    <a type="button" class="btn btn-outline-primary float-end" th:href="@{'/board/update/' + ${board.id}}">수정하기</a>
 
 
 

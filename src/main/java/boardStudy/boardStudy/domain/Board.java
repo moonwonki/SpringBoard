@@ -1,19 +1,19 @@
 package boardStudy.boardStudy.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+
 
 @Entity
 @Getter
 @Setter
-public class Board {
+@EntityListeners(AuditingEntityListener.class)
+public class Board extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -22,7 +22,7 @@ public class Board {
     private String content;
     private String author;
     private int recommendCount;
-    private LocalDateTime createTime;
+
 
 
 }
