@@ -6,22 +6,21 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-
-
 @Entity
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class Board extends BaseTimeEntity{
+public class Comment extends BaseTimeEntity{
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private String content;
+
     private String author;
-    private int recommendCount;
+    private String content;
 
-
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
 }

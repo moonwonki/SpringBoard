@@ -1,7 +1,9 @@
 package boardStudy.boardStudy.controller;
 
 import boardStudy.boardStudy.domain.Board;
+import boardStudy.boardStudy.domain.Comment;
 import boardStudy.boardStudy.service.BoardService;
+import boardStudy.boardStudy.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,10 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class BoardController {
 
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @Autowired
-    public BoardController(BoardService boardService) {
+    public BoardController(BoardService boardService, CommentService commentService) {
         this.boardService = boardService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/boards")
@@ -33,7 +37,7 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public String getBoardById(Model model, @PathVariable("id") Long id){
-
+        model.addAttribute("comments", commentService.getCommentsByBoardId(id));
         model.addAttribute("board", boardService.findById(id));
         return "html/board";
     }
@@ -62,7 +66,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/board/{id}")
-    public String deleteBoard(Model model, @PathVariable("id") Long id, RedirectAttributes redirectAttr){
+    public String deleteBoard(@PathVariable("id") Long id){
         log.info("게시글 삭제: " + id);
         boardService.deleteById(id);
 
@@ -81,5 +85,17 @@ public class BoardController {
     public String editBoard(Model model, @ModelAttribute Board newBoard, @PathVariable("id") Long id){
         boardService.updateById(id, newBoard.getTitle(), newBoard.getAuthor(), newBoard.getContent());
         return "redirect:/board/" + id;
+    }
+
+    @PostMapping("/board/comment/{id}")
+    public String createComment(Model model, @ModelAttribute Comment comment, @PathVariable("id") Long id){
+        commentService.saveComment(comment, boardService.findById(id));
+        return "redirect:/board/" + id;
+    }
+
+    @DeleteMapping("/board/comment/{boardId}/{commentId}")
+    public String deleteComment(@PathVariable("boardId") Long boardId, @PathVariable("commentId") Long commentId){
+        commentService.deleteCommentById(commentId);
+        return "redirect:/board/" + boardId;
     }
 }

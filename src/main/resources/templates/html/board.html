@@ -13,6 +13,10 @@
             border-radius: 5px;
             font-weight: bold;
         }
+
+        .custom-border {
+            border: 2px solid #000000;
+        }
     </style>
 </head>
 <body>
@@ -22,7 +26,7 @@
     </div>
 
 
-    <div class="card">
+    <div class="card custom-border">
         <div class="card-body">
             <h2 class="card-title" th:text="${board.title}">제목</h2>
 
@@ -35,21 +39,58 @@
             </div>
             <hr>
             <div class="card-text" style="white-space:pre-wrap" th:text="${board.content}">글의 내용이 깔끔하게 보여지는 부분입니다.</div>
+            <hr>
+            <div class="d-flex justify-content-center">
+                <div class="btn-group">
+                    <a type="button" class="btn btn-outline-success" th:href="'/board/recommend/' + ${board.id}">추천!</a>
+                    <div class="btn btn-outline-success" style="width: auto;" th:text="${board.recommendCount}">추천수!</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="btn-group">
-        <a type="button" class="btn btn-outline-success" th:href="'/board/recommend/' + ${board.id}">추천!</a>
-        <div class="btn btn-outline-success" style="width: auto;" th:text="${board.recommendCount}">추천수!</div>
+
+    <div class="d-flex justify-content-end">
+        <form th:action="'/board/' + ${board.id}" th:method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit" class="btn btn-danger">삭제하기</button>
+        </form>
+        <a type="button" class="btn btn-dark" th:href="@{/boards}">메뉴로</a>
+        <a type="button" class="btn btn-warning" th:href="@{'/board/update/' + ${board.id}}">수정하기</a>
     </div>
-    <form th:action="'/board/' + ${board.id}" th:method="post">
-        <input type="hidden" name="_method" value="DELETE" />
-        <button type="submit" class="btn btn-danger float-end">삭제하기</button>
-    </form>
-    <a type="button" class="btn btn-outline-primary float-end" th:href="@{/boards}">메뉴로</a>
-    <a type="button" class="btn btn-outline-primary float-end" th:href="@{'/board/update/' + ${board.id}}">수정하기</a>
 
-
+    <br/>
+    <table class="table table-responsive">
+        <tbody>
+        <tr th:each="comment : ${comments}">
+            <td>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <strong th:text="${comment.author}">작성자</strong>
+                        <small th:text="${#temporals.format(comment.createTime, 'yyyy-MM-dd HH:mm')}">작성 시간</small>
+                    </div>
+                    <div>
+                        <form th:action="'/board/comment/' + ${board.id} +'/'+ ${comment.id}" th:method="post">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <button type="submit" class="btn btn-link btn-sm text-muted">삭제</button>
+                        </form>
+                    </div>
+                </div>
+                <div style="white-space:pre-wrap" th:text="${comment.content}">댓글 내용</div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <form th:action="@{'/board/comment/' + ${board.id}}" th:method="post">
+            <div class="form-group">
+                <textarea class="form-control" rows="3" name="content" placeholder="댓글을 입력하세요"></textarea>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">댓글 작성</button>
+            </div>
+        </form>
+    </div>
 
 </div>
 
