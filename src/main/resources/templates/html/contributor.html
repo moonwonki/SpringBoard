@@ -45,22 +45,23 @@
         <h1 class="custom-heading font-weight-bold">Spring board project <small class="text-light-emphasis">by MoonWonKi</small></h1>
     </div>
 
-    <form th:action="@{/create}" method="post">
-        <div class="form-group">
-            <label for="title">제목</label>
-            <input type="text" class="form-control" id="title" name=title placeholder="제목을 입력하세요">
+    <div class="card custom-border mt-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <img src="images/java.svg" alt="Java Logo" class="img-fluid">
+                </div>
+                <div class="col-lg-8">
+                    <h2 class="mb-4">[Your Name]</h2>
+                    <p class="text-muted">Hello, I'm [Your Name].</p>
+                    <p class="text-muted">I am a passionate [Your Profession] with [number] years of experience. I specialize in [Your Expertise].</p>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="author">작성자</label>
-            <input type="text" class="form-control" id="author" name="author" placeholder="작성자를 입력하세요">
-        </div>
-        <div class="form-group">
-            <label for="content">글 내용</label>
-            <textarea onkeyup="counter();" class="form-control" id="content" rows="5" name="content" placeholder="글 내용을 입력하세요"></textarea>
-        </div>
-        <button type="submit" class="btn btn-outline-primary float-end">작성</button>
-    </form>
-    <span id="count">(0/225)</span>
+    </div>
+
+
+
 </div>
 <script>
     function counter() {

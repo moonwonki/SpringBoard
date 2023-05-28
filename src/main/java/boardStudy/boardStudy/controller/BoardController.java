@@ -23,21 +23,25 @@ public class BoardController {
 
     private final BoardService boardService;
     private final CommentService commentService;
+    private final UserAuthService userAuthService;
 
     @Autowired
-    public BoardController(BoardService boardService, CommentService commentService) {
+    public BoardController(BoardService boardService, CommentService commentService, UserAuthService userAuthService) {
         this.boardService = boardService;
         this.commentService = commentService;
+        this.userAuthService = userAuthService;
     }
 
     @GetMapping("/boards")
-    public String getBoardList(Model model){
+    public String getBoardList(Model model, @CookieValue("jwtToken") String cookie){
+        log.info("{} -> 보드 리스트 접속", userAuthService.getUsername(cookie));
         model.addAttribute("boards", boardService.getBoardList());
         return "html/boards";
     }
 
     @GetMapping("/board/{id}")
-    public String getBoardById(Model model, @PathVariable("id") Long id){
+    public String getBoardById(Model model, @PathVariable("id") Long id, @CookieValue("jwtToken") String cookie){
+        log.info("{} -> 보드 {}번 접속", userAuthService.getUsername(cookie), id);
         model.addAttribute("comments", commentService.getCommentsByBoardId(id));
         model.addAttribute("board", boardService.findById(id));
         return "html/board";
@@ -45,30 +49,30 @@ public class BoardController {
 
     @GetMapping("/create")
     public String getBoardForm(Model model){
-
         return "html/boardForm";
     }
 
     @PostMapping("/create")
-    public String createBoard(@ModelAttribute Board board, RedirectAttributes redirectAttr){
+    public String createBoard(@ModelAttribute Board board, RedirectAttributes redirectAttr, @CookieValue("jwtToken") String cookie){
 
         Long savedBoardId = boardService.save(board);
-
+        log.info("{} -> 신규 보드 {}번 작성", userAuthService.getUsername(cookie), savedBoardId);
         redirectAttr.addAttribute("id", savedBoardId);
-        log.info("신규 보드 생성: " + savedBoardId);
+
         return "redirect:/board/{id}";
     }
 
     @GetMapping("/board/recommend/{id}")
-    public String recommendBoard(@PathVariable("id") Long boardId, RedirectAttributes redirectAttr) {
+    public String recommendBoard(@PathVariable("id") Long boardId, RedirectAttributes redirectAttr, @CookieValue("jwtToken") String cookie) {
+        log.info("{} -> 신규 보드 {}번 작성", userAuthService.getUsername(cookie), boardId);
         boardService.recommendBoard(boardId);
         redirectAttr.addAttribute("id", boardId);
         return "redirect:/board/{id}";
     }
 
     @DeleteMapping("/board/{id}")
-    public String deleteBoard(@PathVariable("id") Long id){
-        log.info("게시글 삭제: " + id);
+    public String deleteBoard(@PathVariable("id") Long id, @CookieValue("jwtToken") String cookie){
+        log.info("{} -> 보드 {}번 삭제", userAuthService.getUsername(cookie), id);
         boardService.deleteById(id);
 
 

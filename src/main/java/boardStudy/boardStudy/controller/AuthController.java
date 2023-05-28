@@ -1,23 +1,15 @@
 package boardStudy.boardStudy.controller;
 
-import boardStudy.boardStudy.service.JwtService;
 import boardStudy.boardStudy.service.UserAuthService;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
 
 
 @Controller
@@ -31,9 +23,9 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public String register(@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password){
+    public String register(@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("nickname") String nickname){
         log.info("회원가입 -> 사용자명 : {}", username);
-        userAuthService.register(username, email, password);
+        userAuthService.register(username, email, password, nickname);
 
         return "html/loginForm";
     }

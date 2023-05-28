@@ -33,7 +33,6 @@ public class JwtService {
     public JwtService(@Value("${jwt.secretKey}") String secretKey) {
         this.SECRET_KEY = secretKey;
     }
-
     public String extractUsername(String jwt) {
         return extractClaim(jwt, Claims::getSubject);
     }
