@@ -28,17 +28,18 @@ public class BoardService {
 
         return boardRepository.save(board).getId();
     }
-    public Long updateById(Long id, String title, String content){
-        Board oldBoard = boardRepository.findById(id).get();
-        oldBoard.setTitle(title);
-        oldBoard.setContent(content);
+    public void updateById(Long id, String title, String content, Long userId){
+        if (boardRepository.findById(id).get().getUserId() == userId){
+            Board oldBoard = boardRepository.findById(id).get();
+            oldBoard.setTitle(title);
+            oldBoard.setContent(content);
 
-        boardRepository.save(oldBoard);
-        return id;
+            boardRepository.save(oldBoard);
+        }
     }
 
-    public void deleteById(Long id){
-        boardRepository.deleteById(id);
+    public void deleteById(Long id, Long userId){
+        if (boardRepository.findById(id).get().getUserId() == userId) boardRepository.deleteById(id);
     }
 
     public Long recommendBoard(Long id){
@@ -52,6 +53,8 @@ public class BoardService {
     public Board findById(Long id){
         Board board = boardRepository.findById(id).get();
 
+        //해당 유저의 nickname이 바뀌었다면 board 안에 있는 nickname도 바꿔주어야 함.
+        //foreign key로 설정하지 않음. 그렇게 했더니 table을 지우거나 다시 배치하는게 힘듬.
         if (nicknameChanged(board)) boardRepository.save(board);
 
         return boardRepository.findById(id).get();

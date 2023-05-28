@@ -77,10 +77,10 @@
     <div class="d-flex justify-content-end">
         <form th:action="'/board/' + ${board.id}" th:method="post">
             <input type="hidden" name="_method" value="DELETE" />
-            <button type="submit" class="btn btn-danger">삭제하기</button>
+            <button type="submit" class="btn btn-danger" th:if="${owner}">삭제하기</button>
         </form>
         <a type="button" class="btn btn-dark" th:href="@{/boards}">메뉴로</a>
-        <a type="button" class="btn btn-warning" th:href="@{'/board/update/' + ${board.id}}">수정하기</a>
+        <a type="button" class="btn btn-warning" th:href="@{'/board/update/' + ${board.id}}" th:if="${owner}">수정하기</a>
     </div>
 
     <br/>

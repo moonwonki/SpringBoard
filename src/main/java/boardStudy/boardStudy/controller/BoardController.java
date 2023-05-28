@@ -41,9 +41,16 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public String getBoardById(Model model, @PathVariable("id") Long id, @CookieValue("jwtToken") String cookie){
-        log.info("{} -> 보드 {}번 접속", userAuthService.getUsername(cookie), id);
+        String username = userAuthService.getUsername(cookie);
+        Board board = boardService.findById(id);
+
+        log.info("{} -> 보드 {}번 접속", username, id);
+        //comments에 대한 정보를 담은 comments attribute
         model.addAttribute("comments", commentService.getCommentsByBoardId(id));
-        model.addAttribute("board", boardService.findById(id));
+        //board에 대한 정보를 담은 board attribute
+        model.addAttribute("board", board);
+        //해당 board의 주인인지 아닌지에 대한 정보가 담긴 owner attribute
+        model.addAttribute("owner", board.getUserId() == userAuthService.getIdByUsername(username));
         return "html/board";
     }
 
@@ -73,8 +80,9 @@ public class BoardController {
 
     @DeleteMapping("/board/{id}")
     public String deleteBoard(@PathVariable("id") Long id, @CookieValue("jwtToken") String cookie){
+        String username = userAuthService.getUsername(cookie);
         log.info("{} -> 보드 {}번 삭제", userAuthService.getUsername(cookie), id);
-        boardService.deleteById(id);
+        boardService.deleteById(id, userAuthService.getIdByUsername(username));
 
 
         return "redirect:/boards";
@@ -88,8 +96,9 @@ public class BoardController {
     }
 
     @PostMapping("/board/update/{id}")
-    public String editBoard(Model model, @ModelAttribute Board newBoard, @PathVariable("id") Long id){
-        boardService.updateById(id, newBoard.getTitle(), newBoard.getContent());
+    public String editBoard(Model model, @ModelAttribute Board newBoard, @PathVariable("id") Long id, @CookieValue("jwtToken") String cookie){
+        String username = userAuthService.getUsername(cookie);
+        boardService.updateById(id, newBoard.getTitle(), newBoard.getContent(), userAuthService.getIdByUsername(username));
         return "redirect:/board/" + id;
     }
 

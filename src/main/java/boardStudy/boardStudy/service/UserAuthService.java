@@ -54,4 +54,8 @@ public class UserAuthService {
     public String getNicknameByUsername(String username){
         return userRepository.findByUsername(username).get().getNickname();
     }
+
+    public Long getIdByUsername(String username){
+        return userRepository.findByUsername(username).get().getId();
+    }
 }
