@@ -58,7 +58,7 @@
                 <div>
                     <small class="text-muted" th:text="${#temporals.format(board.createTime, 'yyyy-MM-dd HH:mm')}">작성일자</small>
                     <small class="text-muted">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</small>
-                    <small class="text-muted" th:text="${board.author}">작성자</small>
+                    <small class="text-muted" th:text="${board.nickname}">작성자</small>
                 </div>
             </div>
             <hr>
@@ -90,7 +90,7 @@
             <td>
                 <div class="d-flex justify-content-between">
                     <div>
-                        <strong th:text="${comment.author}">작성자</strong>
+                        <strong th:text="${comment.nickname}">작성자</strong>
                         <small th:text="${#temporals.format(comment.createTime, 'yyyy-MM-dd HH:mm')}">작성 시간</small>
                     </div>
                     <div>

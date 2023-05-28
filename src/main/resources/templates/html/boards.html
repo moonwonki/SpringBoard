@@ -58,7 +58,7 @@
         <tr th:each="board : ${boards}">
             <td th:text="${board.id}">5</td>
             <td><a href="../html/board.html" th:href="@{|/board/${board.id}|}" th:text="${board.title}">제목 길이 제한 타파! 과연 어디까지 나올것인가?</a></td>
-            <td th:text="${board.author}">김이름</td>
+            <td th:text="${board.nickname}">김이름</td>
             <td th:text="${#temporals.format(board.createTime, 'yyyy-MM-dd HH:mm:ss')}">2023.05.18</td>
             <td th:text="${board.recommendCount}">10</td>
         </tr>

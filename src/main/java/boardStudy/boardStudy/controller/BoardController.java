@@ -48,15 +48,16 @@ public class BoardController {
     }
 
     @GetMapping("/create")
-    public String getBoardForm(Model model){
+    public String getBoardForm(Model model, @CookieValue("jwtToken") String cookie){
+        model.addAttribute("nickname", userAuthService.getNicknameByUsername(userAuthService.getUsername(cookie)));
         return "html/boardForm";
     }
 
     @PostMapping("/create")
     public String createBoard(@ModelAttribute Board board, RedirectAttributes redirectAttr, @CookieValue("jwtToken") String cookie){
-
-        Long savedBoardId = boardService.save(board);
-        log.info("{} -> 신규 보드 {}번 작성", userAuthService.getUsername(cookie), savedBoardId);
+        String username = userAuthService.getUsername(cookie);
+        Long savedBoardId = boardService.save(board, username);
+        log.info("{} -> 신규 보드 {}번 작성", username, savedBoardId);
         redirectAttr.addAttribute("id", savedBoardId);
 
         return "redirect:/board/{id}";
@@ -88,7 +89,7 @@ public class BoardController {
 
     @PostMapping("/board/update/{id}")
     public String editBoard(Model model, @ModelAttribute Board newBoard, @PathVariable("id") Long id){
-        boardService.updateById(id, newBoard.getTitle(), newBoard.getAuthor(), newBoard.getContent());
+        boardService.updateById(id, newBoard.getTitle(), newBoard.getContent());
         return "redirect:/board/" + id;
     }
 

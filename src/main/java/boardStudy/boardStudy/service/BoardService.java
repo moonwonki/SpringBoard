@@ -1,7 +1,9 @@
 package boardStudy.boardStudy.service;
 
 import boardStudy.boardStudy.domain.Board;
+import boardStudy.boardStudy.domain.User;
 import boardStudy.boardStudy.repository.BoardRepository;
+import boardStudy.boardStudy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,20 +12,25 @@ import java.util.List;
 
 @Service
 public class BoardService {
-    private BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public BoardService(BoardRepository boardRepository) {
+    public BoardService(BoardRepository boardRepository, UserRepository userRepository) {
         this.boardRepository = boardRepository;
+        this.userRepository = userRepository;
     }
 
-    public Long save(Board board){
+    public Long save(Board board, String username){
+        User user = userRepository.findByUsername(username).get();
+        board.setUserId(user.getId());
+        board.setNickname(user.getNickname());
+
         return boardRepository.save(board).getId();
     }
-    public Long updateById(Long id, String title, String author, String content){
+    public Long updateById(Long id, String title, String content){
         Board oldBoard = boardRepository.findById(id).get();
         oldBoard.setTitle(title);
-        oldBoard.setAuthor(author);
         oldBoard.setContent(content);
 
         boardRepository.save(oldBoard);
@@ -43,7 +50,22 @@ public class BoardService {
     }
 
     public Board findById(Long id){
+        Board board = boardRepository.findById(id).get();
+
+        if (nicknameChanged(board)) boardRepository.save(board);
+
         return boardRepository.findById(id).get();
+    }
+
+    private boolean nicknameChanged(Board board) {
+        String nickname = userRepository.findById(board.getUserId()).get().getNickname();
+        if (board.getNickname().equals(nickname)){
+            return false;
+        }
+        else {
+            board.setNickname(nickname);
+            return true;
+        }
     }
 
     public List<Board> getBoardList(){

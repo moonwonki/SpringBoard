@@ -17,7 +17,8 @@ public class Comment extends BaseTimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String author;
+    private Long userId;
+    private String nickname;
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

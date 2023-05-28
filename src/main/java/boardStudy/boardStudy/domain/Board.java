@@ -19,7 +19,8 @@ public class Board extends BaseTimeEntity{
     private Long id;
     private String title;
     private String content;
-    private String author;
+    private Long userId;
+    private String nickname;
     private int recommendCount;
 
 

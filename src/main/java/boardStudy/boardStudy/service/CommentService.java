@@ -16,7 +16,7 @@ public class CommentService {
 
     public Comment saveComment(Comment comment, Board board) {
         //author 부분은 나중에 처리할 것.
-        comment.setAuthor("익명");
+        comment.setNickname("익명");
         comment.setBoard(board);
         return commentRepository.save(comment);
     }
