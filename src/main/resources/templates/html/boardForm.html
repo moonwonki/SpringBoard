@@ -32,10 +32,22 @@
         </div>
         <div class="form-group">
             <label for="content">글 내용</label>
-            <textarea class="form-control" id="content" rows="5" name="content" placeholder="글 내용을 입력하세요"></textarea>
+            <textarea onkeyup="counter();" class="form-control" id="content" rows="5" name="content" placeholder="글 내용을 입력하세요"></textarea>
         </div>
         <button type="submit" class="btn btn-outline-primary float-end">작성</button>
     </form>
+    <span id="count">(0/225)</span>
 </div>
+<script>
+    function counter() {
+        var contentText = document.getElementById('content').value;
+        if (contentText.length > 225){
+            contentText = contentText.substring(0,225);
+            document.getElementById('content').value = contentText;
+        }
+        document.getElementById('count').innerHTML = '(' + contentText.length + '/225)';
+    }
+    counter();
+</script>
 </body>
 </html>

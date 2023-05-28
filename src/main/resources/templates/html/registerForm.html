@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입 페이지</title>
+  <link th:href="@{/css/bootstrap.css}" href="../css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">회원가입</h4>
+          <form th:action="@{/register}" th:method="post">
+            <div class="mb-3">
+              <label for="username" class="form-label">사용자명</label>
+              <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">비밀번호</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">비밀번호 확인</label>
+              <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+              <div id="passwordMismatch" class="text-danger" style="display: none;">비밀번호가 일치하지 않습니다.</div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">이메일</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="submitButton" disabled>가입하기</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 비밀번호 확인 이벤트 처리
+  var passwordInput = document.getElementById('password');
+  var confirmPasswordInput = document.getElementById('confirmPassword');
+  var passwordMismatch = document.getElementById('passwordMismatch');
+  var submitButton = document.getElementById('submitButton');
+
+  confirmPasswordInput.addEventListener('input', function() {
+    if (passwordInput.value === confirmPasswordInput.value) {
+      passwordMismatch.style.display = 'none';
+      submitButton.disabled = false;
+    } else {
+      passwordMismatch.style.display = 'block';
+      submitButton.disabled = true;
+    }
+  });
+</script>
+</body>
+</html>

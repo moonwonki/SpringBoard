@@ -4,6 +4,7 @@ import boardStudy.boardStudy.domain.Board;
 import boardStudy.boardStudy.domain.Comment;
 import boardStudy.boardStudy.service.BoardService;
 import boardStudy.boardStudy.service.CommentService;
+import boardStudy.boardStudy.service.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
