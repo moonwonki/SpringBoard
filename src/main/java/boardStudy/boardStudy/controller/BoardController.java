@@ -50,7 +50,7 @@ public class BoardController {
         //board에 대한 정보를 담은 board attribute
         model.addAttribute("board", board);
         //해당 board의 주인인지 아닌지에 대한 정보가 담긴 owner attribute
-        model.addAttribute("owner", board.getUserId() == userAuthService.getIdByUsername(username));
+        model.addAttribute("owner", board.getUserId().equals(userAuthService.getIdByUsername(username)));
         return "html/board";
     }
 
@@ -102,15 +102,18 @@ public class BoardController {
         return "redirect:/board/" + id;
     }
 
-    @PostMapping("/board/comment/{id}")
-    public String createComment(Model model, @ModelAttribute Comment comment, @PathVariable("id") Long id){
-        commentService.saveComment(comment, boardService.findById(id));
-        return "redirect:/board/" + id;
+    @PostMapping("/board/comment/{boardId}")
+    public String createComment(Model model, @ModelAttribute Comment comment, @PathVariable("boardId") Long boardId, @CookieValue("jwtToken") String cookie){
+        String username = userAuthService.getUsername(cookie);
+        commentService.saveComment(comment, boardService.findById(boardId), userAuthService.getIdByUsername(username));
+        return "redirect:/board/" + boardId;
     }
 
     @DeleteMapping("/board/comment/{boardId}/{commentId}")
-    public String deleteComment(@PathVariable("boardId") Long boardId, @PathVariable("commentId") Long commentId){
-        commentService.deleteCommentById(commentId);
+    public String deleteComment(@PathVariable("boardId") Long boardId, @PathVariable("commentId") Long commentId, @CookieValue("jwtToken") String cookie){
+        String username = userAuthService.getUsername(cookie);
+        Long userId = userAuthService.getIdByUsername(username);
+        commentService.deleteCommentById(commentId, userId);
         return "redirect:/board/" + boardId;
     }
 }
