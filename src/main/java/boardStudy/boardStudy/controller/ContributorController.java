@@ -21,6 +21,6 @@ public class ContributorController {
     @GetMapping("/contributor")
     public String contributor(@CookieValue("jwtToken") String cookie){
         log.info("기여자 페이지 접속 : {}", userAuthService.getUsername(cookie));
-        return "/html/contributor";
+        return "html/contributor";
     }
 }
