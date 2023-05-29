@@ -50,6 +50,7 @@
   var confirmPasswordInput = document.getElementById('confirmPassword');
   var passwordMismatch = document.getElementById('passwordMismatch');
   var submitButton = document.getElementById('submitButton');
+  var registerForm = document.getElementById('registerForm');
 
   confirmPasswordInput.addEventListener('input', function() {
     if (passwordInput.value === confirmPasswordInput.value) {
@@ -59,6 +60,15 @@
       passwordMismatch.style.display = 'block';
       submitButton.disabled = true;
     }
+  });
+
+  registerForm.addEventListener('input', function() {
+    var inputs = registerForm.querySelectorAll('input[required]');
+    var allFilled = Array.from(inputs).every(function(input) {
+      return input.value !== '';
+    });
+
+    submitButton.disabled = !allFilled;
   });
 </script>
 </body>
