@@ -10,6 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class UserAuthService {
@@ -18,18 +21,27 @@ public class UserAuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public String register(String username, String email, String password, String nickname) {
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRole(Role.USER);
-        user.setNickname(nickname);
-        userRepository.save(user);
+    public Map<String, Boolean> register(String username, String email, String password, String nickname) {
+        Map<String, Boolean> registerValid = new HashMap<>();
 
-        String token = jwtService.generateToken(user);
+        if (userRepository.existsUserByUsername(username)) registerValid.put("username", false);
+        else registerValid.put("username", true);
+        if (userRepository.existsUserByEmail(email)) registerValid.put("email", false);
+        else registerValid.put("email", true);
+        if (userRepository.existsUserByNickname(nickname)) registerValid.put("nickname", false);
+        else registerValid.put("nickname", true);
 
-        return token;
+        if (registerValid.get("username") && registerValid.get("email") && registerValid.get("nickname")){
+            User user = new User();
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setPassword(passwordEncoder.encode(password));
+            user.setRole(Role.USER);
+            user.setNickname(nickname);
+            userRepository.save(user);
+        }
+
+        return registerValid;
     }
 
 

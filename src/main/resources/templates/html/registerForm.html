@@ -18,6 +18,7 @@
             <div class="mb-3">
               <label for="username" class="form-label">사용자명</label>
               <input type="text" class="form-control" id="username" name="username" required>
+              <div th:if="${registerCheck != null && !registerCheck['username']}" class="text-danger">중복된 사용자명입니다.</div>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">비밀번호</label>
@@ -31,10 +32,12 @@
             <div class="mb-3">
               <label for="email" class="form-label">이메일</label>
               <input type="email" class="form-control" id="email" name="email" required>
+              <div th:if="${registerCheck != null && !registerCheck['email']}" class="text-danger">중복된 이메일입니다.</div>
             </div>
             <div class="mb-3">
               <label for="nickname" class="form-label">닉네임</label>
               <input type="text" class="form-control" id="nickname" name="nickname" required>
+              <div th:if="${registerCheck != null && !registerCheck['nickname']}" class="text-danger">중복된 닉네임입니다.</div>
             </div>
             <button type="submit" class="btn btn-primary" id="submitButton" disabled>가입하기</button>
           </form>
