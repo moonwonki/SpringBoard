@@ -65,7 +65,7 @@
                 </div>
             </div>
             <hr>
-            <div class="card-text" style="white-space:pre-wrap" th:text="${board.content}">글의 내용이 깔끔하게 보여지는 부분입니다.</div>
+            <div class="card-text" style="white-space:pre-wrap" th:text="${board.content}" id="content">글의 내용이 깔끔하게 보여지는 부분입니다.</div>
             <hr>
             <div class="d-flex justify-content-center">
                 <div class="btn-group">
@@ -121,6 +121,37 @@
 
 </div>
 
+<script>
+    var content = document.getElementById("content"); // <div> 요소 선택
 
+    var text = content.innerText; // <div> 요소의 텍스트 내용 가져오기
+    var modifiedText = text;
+
+    function escapeHtmlTags(input) {
+        return input.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace('"', '&quot;').replace("'", '&#039;');
+    }
+    modifiedText = escapeHtmlTags(modifiedText); // HTML 태그 이스케이프 적용
+
+    var stringsToReplace = ["String", " int", "long", "char", "void", "byte", "short", "float", "double", "boolean"];
+    var color = "#c95959";
+
+    stringsToReplace.forEach(function(string) {
+        var regex = new RegExp(string, "g");
+        modifiedText = modifiedText.replace(regex, "<span style='color: " + color + ";'>"+ string + "</span>");
+    });
+
+    stringsToReplace = ["public", "private", "default", "protected", "main", "import", "static", "new", "System", "class"];
+    color = "#43b0be";
+    stringsToReplace.forEach(function(string) {
+        var regex = new RegExp(string, "g");
+        modifiedText = modifiedText.replace(regex, "<span style='color: " + color + ";'>"+ string + "</span>");
+    });
+
+
+
+    content.innerHTML = modifiedText;// 변경된 텍스트로 업데이트
+
+
+</script>
 </body>
 </html>

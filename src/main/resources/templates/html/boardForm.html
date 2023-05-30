@@ -56,7 +56,7 @@
         </div>
         <div class="form-group">
             <label for="content">글 내용</label>
-            <textarea onkeyup="counter();" class="form-control" id="content" rows="5" name="content" placeholder="글 내용을 입력하세요"></textarea>
+            <textarea onkeyup="counter();" class="form-control" id="content" rows="15" name="content" placeholder="글 내용을 입력하세요"></textarea>
         </div>
         <button type="submit" class="btn btn-outline-primary float-end">작성</button>
     </form>
@@ -65,7 +65,7 @@
 <script>
     function counter() {
         var contentText = document.getElementById('content').value;
-        document.getElementById('count').innerHTML = '(' + contentText.length;
+        document.getElementById('count').innerHTML = '(' + contentText.length + ")";
     }
     counter();
 </script>
