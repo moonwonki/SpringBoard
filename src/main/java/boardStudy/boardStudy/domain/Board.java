@@ -18,6 +18,7 @@ public class Board extends BaseTimeEntity{
     @Setter(AccessLevel.NONE)
     private Long id;
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String content;
     private Long userId;
     private String nickname;

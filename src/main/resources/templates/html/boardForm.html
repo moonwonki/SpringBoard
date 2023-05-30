@@ -65,11 +65,7 @@
 <script>
     function counter() {
         var contentText = document.getElementById('content').value;
-        if (contentText.length > 225){
-            contentText = contentText.substring(0,225);
-            document.getElementById('content').value = contentText;
-        }
-        document.getElementById('count').innerHTML = '(' + contentText.length + '/225)';
+        document.getElementById('count').innerHTML = '(' + contentText.length;
     }
     counter();
 </script>
