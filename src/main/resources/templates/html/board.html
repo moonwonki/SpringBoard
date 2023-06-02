@@ -8,18 +8,68 @@
     <style>
         .custom-heading {
             color: #007bff;
-            padding: 10px;
-            border-radius: 5px;
+            background-color: #212121;
             font-weight: bold;
+            height: 20vh;
+            font-family: "Times New Roman";
+            display: flex;
+            flex-direction: column; /* 세로 방향으로 요소들을 배치 */
+            align-items: center;
+            justify-content: center;
+            border: 1px solid white; /* 얇은 하얀색 테두리 설정 */
+            text-align: center; /* 가운데 정렬 */
         }
 
-        .custom-border {
-            border: 2px solid #000000;
+        .board-card {
+            background-color: #424242;
+            border: 2px solid #868580;
             box-shadow: 0px 0px 5px #444;
+            color: white;
+        }
+
+        .table {
+            color: white; /* 테이블 내부 글씨 색상을 흰색으로 설정 */
+            background-color: #45494b;
+        }
+
+        .table a {
+            text-decoration: none; /* 링크의 밑줄 제거 */
+            color: #FFC107; /* 링크의 색상 변경 */
+        }
+
+        /*type writer 기능*/
+        .first_line {
+            animation: typewriter_1 6s steps(40) 1s 1 normal both, first_cursor 900ms steps(40) 8;
+            white-space: nowrap; /* keep text in one line */
+            overflow: hidden; /* hide text behind the cursor */
+        }
+        .second_line {
+            white-space: nowrap; /* keep text in one line */
+            overflow: hidden; /* hide text behind the cursor */
+            animation: typewriter_2 5s steps(33) 1s 1 normal both, second_cursor 900ms steps(33) infinite;
+            -webkit-animation-delay: 7s;
+            animation-delay: 7s;
+        }
+
+        @keyframes typewriter_1 {
+            from {
+                width: 0;
+            }
+            to {
+                width: 38rem;
+            }
+        }
+        @keyframes typewriter_2 {
+            from {
+                width: 0;
+            }
+            to {
+                width: 40rem;
+            }
         }
     </style>
 </head>
-<body>
+<body style="background-color: #424242;">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand text-warning" href="#">Spring Board Project</a>
@@ -48,20 +98,20 @@
     </div>
 </nav>
 <div class="container">
-    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-        <h3 class="custom-heading font-weight-bold">Spring board project <small class="text-light-emphasis">by MoonWonKi</small></h3>
-    </nav>
-    <br/>
+    <div class="custom-heading">
+        <h1 class="font-weight-bold first_line">Spring board project</h1>
+        <h3 class="text-white second_line" > by MoonWonKi</h3>
+    </div>
 
-    <div class="card custom-border">
+    <div class="card board-card">
         <div class="card-body">
             <h2 class="card-title" th:text="${board.title}">제목</h2>
 
             <div class="d-flex flex-row-reverse">
                 <div>
-                    <small class="text-muted" th:text="${#temporals.format(board.createTime, 'yyyy-MM-dd HH:mm')}">작성일자</small>
-                    <small class="text-muted">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</small>
-                    <small class="text-muted" th:text="${board.nickname}">작성자</small>
+                    <span th:text="${#temporals.format(board.createTime, 'yyyy-MM-dd HH:mm')}">작성일자</span>
+                    <span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+                    <span th:text="${board.nickname}">작성자</span>
                 </div>
             </div>
             <hr>
@@ -69,7 +119,7 @@
             <hr>
             <div class="d-flex justify-content-center">
                 <div class="btn-group">
-                    <a type="button" class="btn btn-outline-success" th:href="'/board/recommend/' + ${board.id}">추천!</a>
+                    <a type="button" class="btn btn-success" th:href="'/board/recommend/' + ${board.id}">추천!</a>
                     <div class="btn btn-outline-success" style="width: auto;" th:text="${board.recommendCount}">추천수!</div>
                 </div>
             </div>
@@ -94,12 +144,12 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <strong th:text="${comment.nickname}">작성자</strong>
-                        <small th:text="${#temporals.format(comment.createTime, 'yyyy-MM-dd HH:mm')}">작성 시간</small>
+                        <small th:text="${#temporals.format(comment.createTime, 'yyyy-MM-dd HH:mm')}" style="color: gray;">작성 시간</small>
                     </div>
                     <div>
                         <form th:action="'/board/comment/' + ${board.id} +'/'+ ${comment.id}" th:method="post">
                             <input type="hidden" name="_method" value="DELETE" />
-                            <button type="submit" class="btn btn-link btn-sm text-muted">삭제</button>
+                            <button type="submit" class="btn btn-link btn-sm" style="color: indianred;">삭제</button>
                         </form>
                     </div>
                 </div>

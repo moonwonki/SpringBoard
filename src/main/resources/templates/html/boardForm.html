@@ -8,14 +8,55 @@
     <style>
         .custom-heading {
             color: #007bff;
-            background-color: rgba(255, 255, 255, 0.99);
-            padding: 10px;
-            border-radius: 5px;
+            background-color: #212121;
             font-weight: bold;
+            height: 20vh;
+            font-family: "Times New Roman";
+            display: flex;
+            flex-direction: column; /* 세로 방향으로 요소들을 배치 */
+            align-items: center;
+            justify-content: center;
+            border: 1px solid white; /* 얇은 하얀색 테두리 설정 */
+            text-align: center; /* 가운데 정렬 */
+        }
+
+        label {
+            color: white;
+        }
+
+        /*type writer 기능*/
+        .first_line {
+            animation: typewriter_1 6s steps(40) 1s 1 normal both, first_cursor 900ms steps(40) 8;
+            white-space: nowrap; /* keep text in one line */
+            overflow: hidden; /* hide text behind the cursor */
+        }
+        .second_line {
+            white-space: nowrap; /* keep text in one line */
+            overflow: hidden; /* hide text behind the cursor */
+            animation: typewriter_2 5s steps(33) 1s 1 normal both, second_cursor 900ms steps(33) infinite;
+            -webkit-animation-delay: 7s;
+            animation-delay: 7s;
+        }
+
+        @keyframes typewriter_1 {
+            from {
+                width: 0;
+            }
+            to {
+                width: 38rem;
+            }
+        }
+        @keyframes typewriter_2 {
+            from {
+                width: 0;
+            }
+            to {
+                width: 40rem;
+            }
         }
     </style>
 </head>
-<body>
+<body style="background-color: #424242;">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand text-warning" href="#">Spring Board Project</a>
@@ -41,8 +82,9 @@
     </div>
 </nav>
 <div class="container">
-    <div class="text-start">
-        <h1 class="custom-heading font-weight-bold">Spring board project <small class="text-light-emphasis">by MoonWonKi</small></h1>
+    <div class="custom-heading">
+        <h1 class="font-weight-bold first_line">Spring board project</h1>
+        <h3 class="text-white second_line" > by MoonWonKi</h3>
     </div>
 
     <form th:action="@{/create}" method="post">
